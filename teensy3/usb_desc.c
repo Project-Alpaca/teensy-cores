@@ -466,6 +466,90 @@ static uint8_t flightsim_report_desc[] = {
 };
 #endif
 
+#ifdef DS4_INTERFACE
+// This is actually the Hori FPS report descriptor since retail PS4s did not
+// respond to reports from a wired DS4
+static uint8_t ds4_report_desc[] = {
+        0x05, 0x01,       /*  Usage Page (Desktop),           */
+        0x09, 0x05,       /*  Usage (Gamepad),                */
+        0xA1, 0x01,       /*  Collection (Application),       */
+        0x85, 0x01,       /*    Report ID (1),                */
+        0x09, 0x30,       /*    Usage (X),                    */
+        0x09, 0x31,       /*    Usage (Y),                    */
+        0x09, 0x32,       /*    Usage (Z),                    */
+        0x09, 0x35,       /*    Usage (Rz),                   */
+        0x15, 0x00,       /*    Logical Minimum (0),          */
+        0x26, 0xFF, 0x00, /*    Logical Maximum (255),        */
+        0x75, 0x08,       /*    Report Size (8),              */
+        0x95, 0x04,       /*    Report Count (4),             */
+        0x81, 0x02,       /*    Input (Variable),             */
+        0x09, 0x39,       /*    Usage (Hat Switch),           */
+        0x15, 0x00,       /*    Logical Minimum (0),          */
+        0x25, 0x07,       /*    Logical Maximum (7),          */
+        0x35, 0x00,       /*    Physical Minimum (0),         */
+        0x46, 0x3B, 0x01, /*    Physical Maximum (315),       */
+        0x65, 0x14,       /*    Unit (Degrees),               */
+        0x75, 0x04,       /*    Report Size (4),              */
+        0x95, 0x01,       /*    Report Count (1),             */
+        0x81, 0x42,       /*    Input (Variable, Null State), */
+        0x65, 0x00,       /*    Unit,                         */
+        0x05, 0x09,       /*    Usage Page (Button),          */
+        0x19, 0x01,       /*    Usage Minimum (01h),          */
+        0x29, 0x0E,       /*    Usage Maximum (0Eh),          */
+        0x15, 0x00,       /*    Logical Minimum (0),          */
+        0x25, 0x01,       /*    Logical Maximum (1),          */
+        0x75, 0x01,       /*    Report Size (1),              */
+        0x95, 0x0E,       /*    Report Count (14),            */
+        0x81, 0x02,       /*    Input (Variable),             */
+        0x06, 0x00, 0xFF, /*    Usage Page (FF00h),           */
+        0x09, 0x20,       /*    Usage (20h),                  */
+        0x75, 0x06,       /*    Report Size (6),              */
+        0x95, 0x01,       /*    Report Count (1),             */
+        0x81, 0x02,       /*    Input (Variable),             */
+        0x05, 0x01,       /*    Usage Page (Desktop),         */
+        0x09, 0x33,       /*    Usage (Rx),                   */
+        0x09, 0x34,       /*    Usage (Ry),                   */
+        0x15, 0x00,       /*    Logical Minimum (0),          */
+        0x26, 0xFF, 0x00, /*    Logical Maximum (255),        */
+        0x75, 0x08,       /*    Report Size (8),              */
+        0x95, 0x02,       /*    Report Count (2),             */
+        0x81, 0x02,       /*    Input (Variable),             */
+        0x06, 0x00, 0xFF, /*    Usage Page (FF00h),           */
+        0x09, 0x21,       /*    Usage (21h),                  */
+        0x95, 0x36,       /*    Report Count (54),            */
+        0x81, 0x02,       /*    Input (Variable),             */
+        0x85, 0x05,       /*    Report ID (5),                */
+        0x09, 0x22,       /*    Usage (22h),                  */
+        0x95, 0x1F,       /*    Report Count (31),            */
+        0x91, 0x02,       /*    Output (Variable),            */
+        0x85, 0x03,       /*    Report ID (3),                */
+        0x0A, 0x21, 0x27, /*    Usage (2721h),                */
+        0x95, 0x2F,       /*    Report Count (47),            */
+        0xB1, 0x02,       /*    Feature (Variable),           */
+        0xC0,             /*  End Collection,                 */
+        0x06, 0xF0, 0xFF, /*  Usage Page (FFF0h),             */
+        0x09, 0x40,       /*  Usage (40h),                    */
+        0xA1, 0x01,       /*  Collection (Application),       */
+        0x85, 0xF0,       /*    Report ID (240),              */
+        0x09, 0x47,       /*    Usage (47h),                  */
+        0x95, 0x3F,       /*    Report Count (63),            */
+        0xB1, 0x02,       /*    Feature (Variable),           */
+        0x85, 0xF1,       /*    Report ID (241),              */
+        0x09, 0x48,       /*    Usage (48h),                  */
+        0x95, 0x3F,       /*    Report Count (63),            */
+        0xB1, 0x02,       /*    Feature (Variable),           */
+        0x85, 0xF2,       /*    Report ID (242),              */
+        0x09, 0x49,       /*    Usage (49h),                  */
+        0x95, 0x0F,       /*    Report Count (15),            */
+        0xB1, 0x02,       /*    Feature (Variable),           */
+        0x85, 0xF3,       /*    Report ID (243),              */
+        0x0A, 0x01, 0x47, /*    Usage (4701h),                */
+        0x95, 0x07,       /*    Report Count (7),             */
+        0xB1, 0x02,       /*    Feature (Variable),           */
+        0xC0              /*  End Collection                  */
+};
+
+#endif
 
 // **************************************************************
 //   USB Descriptor Sizes
@@ -591,7 +675,15 @@ static uint8_t flightsim_report_desc[] = {
 #define MULTITOUCH_INTERFACE_DESC_SIZE	0
 #endif
 
-#define CONFIG_DESC_SIZE		MULTITOUCH_INTERFACE_DESC_POS+MULTITOUCH_INTERFACE_DESC_SIZE
+#define DS4_INTERFACE_DESC_POS	MULTITOUCH_INTERFACE_DESC_POS+MULTITOUCH_INTERFACE_DESC_SIZE
+#ifdef  DS4_INTERFACE
+#define DS4_INTERFACE_DESC_SIZE	9+9+7+7
+#define DS4_HID_DESC_OFFSET		DS4_INTERFACE_DESC_POS+9
+#else
+#define DS4_INTERFACE_DESC_SIZE	0
+#endif
+
+#define CONFIG_DESC_SIZE		DS4_INTERFACE_DESC_POS+DS4_INTERFACE_DESC_SIZE
 
 
 
@@ -1570,6 +1662,42 @@ static uint8_t config_descriptor[CONFIG_DESC_SIZE] = {
         MULTITOUCH_SIZE, 0,                     // wMaxPacketSize
         1,                                      // bInterval
 #endif // KEYMEDIA_INTERFACE
+
+#ifdef DS4_INTERFACE
+        // interface descriptor, USB spec 9.6.5, page 267-269, Table 9-12
+        9,                                      // bLength
+        4,                                      // bDescriptorType
+        DS4_INTERFACE,                          // bInterfaceNumber
+        0,                                      // bAlternateSetting
+        2,                                      // bNumEndpoints
+        0x03,                                   // bInterfaceClass (0x03 = HID)
+        0x00,                                   // bInterfaceSubClass
+        0x00,                                   // bInterfaceProtocol
+        0,                                      // iInterface
+        // HID interface descriptor, HID 1.11 spec, section 6.2.1
+        9,                                      // bLength
+        0x21,                                   // bDescriptorType
+        0x11, 0x01,                             // bcdHID
+        0,                                      // bCountryCode
+        1,                                      // bNumDescriptors
+        0x22,                                   // bDescriptorType
+        LSB(sizeof(ds4_report_desc)),           // wDescriptorLength
+        MSB(sizeof(ds4_report_desc)),
+        // endpoint descriptor, USB spec 9.6.6, page 269-271, Table 9-13
+        7,                                      // bLength
+        5,                                      // bDescriptorType
+        DS4_TX_ENDPOINT | 0x80,                 // bEndpointAddress
+        0x03,                                   // bmAttributes (0x03=intr)
+        DS4_TX_SIZE, 0,                         // wMaxPacketSize
+        DS4_TX_INTERVAL,                        // bInterval
+        // endpoint descriptor, USB spec 9.6.6, page 269-271, Table 9-13
+        7,                                      // bLength
+        5,                                      // bDescriptorType
+        DS4_RX_ENDPOINT,                        // bEndpointAddress
+        0x03,                                   // bmAttributes (0x03=intr)
+        DS4_RX_SIZE, 0,                         // wMaxPacketSize
+        DS4_RX_INTERVAL,			// bInterval
+#endif // DS4_INTERFACE
 };
 
 
@@ -1704,6 +1832,10 @@ const usb_descriptor_list_t usb_descriptor_list[] = {
 #endif
 #ifdef MTP_INTERFACE
 	{0x0304, 0x0409, (const uint8_t *)&usb_string_mtp, 0},
+#endif
+#ifdef DS4_INTERFACE
+	{0x2200, DS4_INTERFACE, ds4_report_desc, sizeof(ds4_report_desc)},
+	{0x2100, DS4_INTERFACE, config_descriptor+DS4_HID_DESC_OFFSET, 9},
 #endif
         {0x0300, 0x0000, (const uint8_t *)&string0, 0},
         {0x0301, 0x0409, (const uint8_t *)&usb_string_manufacturer_name, 0},

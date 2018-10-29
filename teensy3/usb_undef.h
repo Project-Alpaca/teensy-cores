@@ -299,6 +299,27 @@
 #ifdef MTP_EVENT_INTERVAL
 #undef MTP_EVENT_INTERVAL
 #endif
+#ifdef DS4_INTERFACE
+#undef DS4_INTERFACE
+#endif
+#ifdef DS4_TX_ENDPOINT
+#undef DS4_TX_ENDPOINT
+#endif
+#ifdef DS4_TX_SIZE
+#undef DS4_TX_SIZE
+#endif
+#ifdef DS4_TX_INTERVAL
+#undef DS4_TX_INTERVAL
+#endif
+#ifdef DS4_RX_ENDPOINT
+#undef DS4_RX_ENDPOINT
+#endif
+#ifdef DS4_RX_SIZE
+#undef DS4_RX_SIZE
+#endif
+#ifdef DS4_RX_INTERVAL
+#undef DS4_RX_INTERVAL
+#endif
 #ifdef ENDPOINT1_CONFIG
 #undef ENDPOINT1_CONFIG
 #endif

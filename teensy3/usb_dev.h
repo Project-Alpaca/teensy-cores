@@ -105,6 +105,11 @@ extern int usb_audio_set_feature(void *stp, uint8_t *buf);
 extern void usb_touchscreen_update_callback(void);
 #endif
 
+#ifdef DS4_INTERFACE
+extern uint8_t usb_ds4_reply_buffer[];
+extern int usb_ds4_on_set_report(void *setup_ptr, uint8_t *data);
+extern int usb_ds4_on_get_report(void *setup_ptr, uint8_t *data, uint32_t *len);
+#endif
 
 #ifdef __cplusplus
 }

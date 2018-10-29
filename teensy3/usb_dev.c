@@ -405,12 +405,34 @@ static void usb_setup(void)
 #endif
 
 // TODO: this does not work... why?
-#if defined(SEREMU_INTERFACE) || defined(KEYBOARD_INTERFACE)
+#if defined(SEREMU_INTERFACE) || defined(KEYBOARD_INTERFACE) || defined(DS4_INTERFACE)
 	  case 0x0921: // HID SET_REPORT
 		//serial_print(":)\n");
-		return;
+#if defined(DS4_INTERFACE)
+        // DS4: set feature report 0xf0 (setChallenge)
+		if (setup.wValue != 0x03f0) {
+			// reject everything that we don't know, leave the rest to usb_control()
+			//serial_print("E: unknown feature report");
+			//serial_phex16(setup.wValue);
+			//serial_print("\n");
+			endpoint0_stall();
+		}
+#endif
+		break;
 	  case 0x0A21: // HID SET_IDLE
 		break;
+	  case 0x01A1: // HID GET_REPORT
+#if defined(DS4_INTERFACE)
+		// DS4: get feature report 0xf1, 0xf2 (getChallengeResponse, challengeResponseAvailable)
+		if (!usb_ds4_on_get_report(&setup, usb_ds4_reply_buffer, &datalen)) {
+			data = usb_ds4_reply_buffer;
+		} else {
+			endpoint0_stall();
+			return;
+		}
+#endif
+		break;
+
 	  // case 0xC940:
 #endif
 
@@ -662,6 +684,15 @@ static void usb_control(uint32_t stat)
 		if (usb_audio_set_feature(&setup, buf)) {
 			endpoint0_transmit(NULL, 0);
 		}
+#endif
+#ifdef DS4_INTERFACE
+	    // Don't send 0 len packet as a mean of ack
+	    //if (setup.wRequestAndType == 0x0921 && !usb_ds4_on_set_report(&setup, buf)) {
+	    //	//endpoint0_transmit(NULL, 0);
+	    //}
+	    if (setup.wRequestAndType == 0x0921) {
+	    	usb_ds4_on_set_report(&setup, buf);
+	    }
 #endif
 		// give the buffer back
 		b->desc = BDT_DESC(EP0_SIZE, DATA1);

@@ -80,6 +80,10 @@ usb_joystick_class Joystick;
 uint8_t usb_joystick_class::manual_mode = 0;
 #endif
 
+#ifdef DS4_INTERFACE
+usb_ds4_class DS4;
+#endif
+
 #ifdef USB_DISABLED
 usb_serial_class Serial;
 #endif
