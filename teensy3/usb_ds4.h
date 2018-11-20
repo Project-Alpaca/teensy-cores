@@ -133,6 +133,35 @@ typedef struct {
     uint8_t padding[20]; // 11-30
 } __attribute__((packed)) ds4_feedback_t;
 
+typedef struct {
+    uint8_t type; // 0
+    uint8_t host_bdaddr[6]; // 1-6
+    uint8_t link_key[16]; // 7-22
+} __attribute__((packed)) ds4_pair_t;
+
+typedef struct {
+    uint8_t type; // 0
+    uint8_t deivce_bdaddr[6]; // 1-6
+    uint8_t u7[3]; // 7-9
+    uint8_t host_bdaddr[6]; // 10-15
+} __attribute__((packed)) ds4_pair_status_t;
+
+typedef struct {
+    uint8_t type; // 0
+    ds4_revision_t revision; // 1-48
+} __attribute__((packed)) ds4_getrevision_t;
+
+typedef struct {
+    uint8_t date[16]; // 0-15
+    uint8_t time[16]; // 16-31
+    uint16_t hw_major; // 32-33
+    uint16_t hw_minor; // 34-35
+    uint32_t fw_major; // 36-39
+    uint16_t fw_minor; // 40-41
+    uint16_t fw_series; // 42-43
+    uint32_t code_size; // 44-47
+} __attribute__((packed)) ds4_revision_t;
+
 #define DS4_DPAD_SET(buttons, dir) \
     buttons[0] ^= buttons[0] & 0x0f; \
     buttons[0] |= dir & 0x0f;
