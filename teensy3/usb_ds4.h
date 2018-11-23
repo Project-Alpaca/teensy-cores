@@ -147,11 +147,6 @@ typedef struct {
 } __attribute__((packed)) ds4_pair_status_t;
 
 typedef struct {
-    uint8_t type; // 0
-    ds4_revision_t revision; // 1-48
-} __attribute__((packed)) ds4_getrevision_t;
-
-typedef struct {
     uint8_t date[16]; // 0-15
     uint8_t time[16]; // 16-31
     uint16_t hw_major; // 32-33
@@ -161,6 +156,11 @@ typedef struct {
     uint16_t fw_series; // 42-43
     uint32_t code_size; // 44-47
 } __attribute__((packed)) ds4_revision_t;
+
+typedef struct {
+    uint8_t type; // 0
+    ds4_revision_t revision; // 1-48
+} __attribute__((packed)) ds4_getrevision_t;
 
 #define DS4_DPAD_SET(buttons, dir) \
     buttons[0] ^= buttons[0] & 0x0f; \
