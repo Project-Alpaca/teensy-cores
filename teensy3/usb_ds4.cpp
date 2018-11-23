@@ -57,9 +57,16 @@
 #define debug_phex32(args) while (0) {}
 #endif
 
-// Ripped from GIMX HoriPad emulation firmware
+// Was ripped from GIMX HoriPad emulation firmware, now ripped from Hori Mini
+// packet capture, with patched feature bits.
+// (The philosophical question is, since it seems that the only reason why a
+// Hori Mini behaves like a Hori Mini is because of the feature bits, are we
+// still emulating a Hori Mini if the feature bits got patched?)
+// Anyway this seems to be a configuration that used by DS4 to determine what
+// hardware are available on the controller (byte 5) and what type of controller
+// it is (byte 6).
 static const uint8_t replay_report_0x03[] = {
-    0x03, 0x21, 0x27, 0x04, 0x41, 0x00, 0x2c, 0x56,
+    0x03, 0x21, 0x27, 0x04, 0x4d, 0x00, 0x2c, 0x56,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x0d, 0x0d, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -167,13 +174,13 @@ int usb_ds4_on_get_report(void *setup_ptr, uint8_t *data, uint32_t *len) {
             *len = sizeof(ds4_auth_result_t);
             _cksum.reset();
             break;
-        case 0x0303: // horiReport0x03
-            debug_print("I: horiReport0x03\n");
+        case 0x0303: // licensedGetHWConfig
+            debug_print("I: licensedGetHWConfig\n");
             memcpy(data, replay_report_0x03, sizeof(replay_report_0x03));
             *len = sizeof(replay_report_0x03);
             break;
-        case 0x03f3: // horiReport0xf3
-            debug_print("I: horiReport0xf3\n");
+        case 0x03f3: // licensedReport0xf3
+            debug_print("I: licensedReport0xf3\n");
             memcpy(data, replay_report_0xf3, sizeof(replay_report_0xf3));
             *len = sizeof(replay_report_0xf3);
             break;
@@ -305,6 +312,15 @@ int usb_ds4_recv_feedback(ds4_feedback_t *feedback) {
             if (recv_buffer[0] == 0x05) {
                 debug_print("I: report ok\n");
                 memcpy((void *) feedback, (const void *) recv_buffer, sizeof(ds4_feedback_t));
+                for (int i=0; i<32; i++) {
+                    debug_phex(recv_buffer[i]);
+                    if (i == 15) {
+                        debug_print("\n");
+                    } else {
+                        debug_print(" ");
+                    }
+                }
+                debug_print("\n");
             } else {
                 debug_print("E: unknown OUT report");
                 debug_phex(recv_buffer[0]);

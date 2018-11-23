@@ -130,7 +130,7 @@ typedef struct {
     uint8_t led_color[3]; // 6-8
     uint8_t led_flash_on; // 9
     uint8_t led_flash_off; // 10
-    uint8_t padding[20]; // 11-30
+    uint8_t padding[21]; // 11-31
 } __attribute__((packed)) ds4_feedback_t;
 
 typedef struct {
