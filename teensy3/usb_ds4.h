@@ -323,6 +323,32 @@ public:
         reportBuffer.frames[0].seq++;
     }
 
+    bool hasValidFeedback(void) {
+        return (feedbackBuffer.type == 0x05) ? true : false;
+    }
+
+    uint8_t getRumbleStrengthRight(void) {
+        return feedbackBuffer.rumble_right;
+    }
+
+    uint8_t getRumbleStrengthLeft(void) {
+        return feedbackBuffer.rumble_left;
+    }
+
+    uint32_t getLEDRGB(void) {
+        return (uint32_t) feedbackBuffer.led_color[0] << 16 |
+               (uint32_t) feedbackBuffer.led_color[1] << 8 |
+               feedbackBuffer.led_color[2];
+    }
+
+    uint8_t getLEDBlinkOnDelay(void) {
+        return feedbackBuffer.led_flash_on;
+    }
+
+    uint8_t getLEDBlinkOffDelay(void) {
+        return feedbackBuffer.led_flash_off;
+    }
+
     // Run these in critical section to prevent race conditions
     // true if there's new challenge, false otherwise
     bool authChallengeAvailable(void);
