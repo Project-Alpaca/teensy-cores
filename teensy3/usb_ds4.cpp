@@ -166,10 +166,8 @@ int usb_ds4_on_get_report(void *setup_ptr, uint8_t *data, uint32_t *len) {
                 result->status = 0x00;
                 _auth_challenge_sent = false;
             }
-            // TODO fix crc
             _cksum.reset();
             _cksum.update((uint8_t *) result, sizeof(ds4_auth_result_t) - sizeof(uint32_t));
-            
             result->crc32 = _cksum.finalize();
             *len = sizeof(ds4_auth_result_t);
             _cksum.reset();
