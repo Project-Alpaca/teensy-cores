@@ -409,7 +409,7 @@ static void usb_setup(void)
 	  case 0x0921: // HID SET_REPORT
 		//serial_print(":)\n");
 #if defined(DS4_INTERFACE)
-        // DS4: set feature report 0xf0 (setChallenge)
+		// DS4: set feature report 0xf0 (setChallenge)
 		if (setup.wValue != 0x03f0) {
 			// reject everything that we don't know, leave the rest to usb_control()
 			//serial_print("E: unknown feature report");
@@ -686,13 +686,13 @@ static void usb_control(uint32_t stat)
 		}
 #endif
 #ifdef DS4_INTERFACE
-	    // Don't send 0 len packet as a mean of ack
-	    //if (setup.wRequestAndType == 0x0921 && !usb_ds4_on_set_report(&setup, buf)) {
-	    //	//endpoint0_transmit(NULL, 0);
-	    //}
-	    if (setup.wRequestAndType == 0x0921) {
-	    	usb_ds4_on_set_report(&setup, buf);
-	    }
+		// Don't send 0 len packet as a mean of ack
+		//if (setup.wRequestAndType == 0x0921 && !usb_ds4_on_set_report(&setup, buf)) {
+		//	//endpoint0_transmit(NULL, 0);
+		//}
+		if (setup.wRequestAndType == 0x0921) {
+			usb_ds4_on_set_report(&setup, buf);
+		}
 #endif
 		// give the buffer back
 		b->desc = BDT_DESC(EP0_SIZE, DATA1);
