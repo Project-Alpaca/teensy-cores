@@ -1,8 +1,4 @@
-**IMPORTANT**: This issue tracker is for issues with the PS4 controller
-emulation **ONLY**. Other irrelevant issues should be reported directly to
-PJRC.
-Also please **DO NOT** ask PJRC for support of this fork and **DO NOT** fork
-this repository and send pull requests to PJRC, for obvious reasons.
+**IMPORTANT**: This issue tracker is for issues with the PS4 controller emulation **ONLY**. Other irrelevant issues should be reported directly to PJRC. Also please **DO NOT** ask PJRC for support of this fork and **DO NOT** fork this repository and send pull requests to PJRC, for obvious reasons.
 
 Please use this Github issue *only for reporting a specific problem*.
 
