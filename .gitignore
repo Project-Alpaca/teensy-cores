@@ -9,3 +9,6 @@ nbproject
 *.orig
 *.tmp
 *.TMP
+
+scripts/*.diff
+scripts/*.patch
