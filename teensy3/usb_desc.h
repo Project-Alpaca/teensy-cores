@@ -962,17 +962,22 @@ let me know?  http://forum.pjrc.com/forums/4-Suggestions-amp-Bug-Reports
   #define NUM_USB_BUFFERS	12
   #define NUM_INTERFACE		2
   #define DS4_INTERFACE      0	// DS4
-  #define DS4_TX_ENDPOINT    4
+  #define DS4_TX_ENDPOINT    1
   #define DS4_TX_SIZE        64
-  #define DS4_TX_INTERVAL    5
-  #define DS4_RX_ENDPOINT    3
+  #define DS4_RX_ENDPOINT    2
   #define DS4_RX_SIZE        64
-  #define DS4_RX_INTERVAL    5
+  #if defined(USB_DS4_TURBO) && USB_DS4_TURBO == 1
+    #define DS4_TX_INTERVAL    1
+    #define DS4_RX_INTERVAL    1
+  #else
+    #define DS4_TX_INTERVAL    5
+    #define DS4_RX_INTERVAL    5
+  #endif
   #define SEREMU_INTERFACE      1	// Serial emulation
-  #define SEREMU_TX_ENDPOINT    1
+  #define SEREMU_TX_ENDPOINT    3
   #define SEREMU_TX_SIZE        64
   #define SEREMU_TX_INTERVAL    1
-  #define SEREMU_RX_ENDPOINT    2
+  #define SEREMU_RX_ENDPOINT    4
   #define SEREMU_RX_SIZE        32
   #define SEREMU_RX_INTERVAL    2
   #define ENDPOINT1_CONFIG	ENDPOINT_TRANSMIT_ONLY
