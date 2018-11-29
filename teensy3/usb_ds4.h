@@ -230,6 +230,7 @@ public:
         memset(&feedbackBuffer, 0, sizeof(ds4_feedback_t));
         pointCtr = 0;
     }
+
     bool send(bool async) {
         reportBuffer.sensor_timestamp = DS4_GET_SENSOR_TS();
         if (usb_ds4_send_report(&reportBuffer, async) == 0) {
@@ -238,32 +239,35 @@ public:
         }
         return false;
     }
+
     bool send(void) {
         return send(false);
     }
+
     bool sendAsync(void) {
         return send(true);
     }
+
     void update(void) {
         usb_ds4_recv_feedback(&feedbackBuffer);
     }
+
     void pressButton(uint8_t buttonId) {
         DS4_BTN_SET(reportBuffer.buttons, buttonId);
     }
+
     void releaseButton(uint8_t buttonId) {
         DS4_BTN_CLR(reportBuffer.buttons, buttonId);
     }
+
     void releaseAllButton(void) {
         DS4_BTN_RESET(reportBuffer.buttons);
     }
+
     void pressDpad(uint8_t pos) {
         DS4_DPAD_SET(reportBuffer.buttons, pos);
-        //serial_print("buttons: ");
-        //serial_phex(reportBuffer.buttons[0]);
-        //serial_phex(reportBuffer.buttons[1]);
-        //serial_phex(reportBuffer.buttons[2]);
-        //serial_print("\n");
     }
+
     void releaseDpad(void) {
         DS4_DPAD_SET(reportBuffer.buttons, DS4_DPAD_C);
     }
@@ -276,6 +280,14 @@ public:
     void setRightAnalog(uint8_t x, uint8_t y) {
         reportBuffer.analog_r_x = x;
         reportBuffer.analog_r_y = y;
+    }
+
+    void setLeftTrigger(uint8_t val) {
+        reportBuffer.trigger_l = val;
+    }
+
+    void setRightTrigger(uint8_t val) {
+        reportBuffer.trigger_r = val;
     }
 
     void setTouchPos1(uint16_t x, uint16_t y) {
