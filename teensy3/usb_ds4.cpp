@@ -74,6 +74,8 @@ static const uint8_t replay_report_0x03[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
+// Response when PS4 asks for resetting the security chip used in authentication
+// process.
 static const uint8_t replay_report_0xf3[] = {
     0xf3, 0x00, 0x38, 0x38, 0x00, 0x00, 0x00, 0x00
 };
@@ -177,8 +179,8 @@ int usb_ds4_on_get_report(void *setup_ptr, uint8_t *data, uint32_t *len) {
             memcpy(data, replay_report_0x03, sizeof(replay_report_0x03));
             *len = sizeof(replay_report_0x03);
             break;
-        case 0x03f3: // licensedReport0xf3
-            debug_print("I: licensedReport0xf3\n");
+        case 0x03f3: // licensedResetAuth
+            debug_print("I: licensedResetAuth\n");
             memcpy(data, replay_report_0xf3, sizeof(replay_report_0xf3));
             *len = sizeof(replay_report_0xf3);
             break;
