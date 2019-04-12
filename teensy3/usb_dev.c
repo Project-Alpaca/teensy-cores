@@ -412,10 +412,18 @@ static void usb_setup(void)
 	  case 0x0A21: // HID SET_IDLE
 		break;
 	  case 0x01A1: // HID GET_REPORT
-#if defined(DS4_INTERFACE)
+#if defined(USB_DS4)
 		// DS4: get feature report 0xf1, 0xf2 (getChallengeResponse, challengeResponseAvailable)
 		if (!usb_ds4_on_get_report(&setup, usb_ds4_reply_buffer, &datalen)) {
 			data = usb_ds4_reply_buffer;
+		} else {
+			endpoint0_stall();
+			return;
+		}
+#endif
+#if defined(USB_DS4STUB)
+		if (usb_ds4stub_on_feature_report && !(*usb_ds4stub_on_feature_report)(&setup, usb_ds4stub_reply_buffer, &datalen)) {
+			data = usb_ds4stub_reply_buffer;
 		} else {
 			endpoint0_stall();
 			return;
@@ -676,9 +684,16 @@ static void usb_control(uint32_t stat)
 		}
 #endif
 #ifdef DS4_INTERFACE
+#ifdef USB_DS4
 		if (setup.wRequestAndType == 0x0921) {
 			usb_ds4_on_set_report(&setup, buf);
 		}
+#endif
+#ifdef USB_DS4STUB
+		if (setup.wRequestAndType == 0x0921 && usb_ds4stub_on_feature_report) {
+			(*usb_ds4stub_on_feature_report)(&setup, buf, NULL);
+		}
+#endif
 #endif
 		// give the buffer back
 		b->desc = BDT_DESC(EP0_SIZE, DATA1);

@@ -34,7 +34,7 @@
 
 #include "usb_desc.h"
 
-#ifdef DS4_INTERFACE
+#if defined(DS4_INTERFACE) && defined(USB_DS4)
 
 #include <inttypes.h>
 #include <string.h>

@@ -65,6 +65,7 @@
 #include "usb_audio.h"
 #include "usb_touch.h"
 #include "usb_ds4.h"
+#include "usb_ds4stub.h"
 #include "usb_undef.h" // do not allow usb_desc.h stuff to leak to user programs
 
 #include "WCharacter.h"

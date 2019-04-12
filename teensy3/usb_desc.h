@@ -947,7 +947,7 @@ let me know?  http://forum.pjrc.com/forums/4-Suggestions-amp-Bug-Reports
   #define ENDPOINT14_CONFIG	ENDPOINT_TRANSMIT_ISOCHRONOUS
   #define ENDPOINT15_CONFIG	ENDPOINT_TRANSMIT_ONLY
 
-#elif defined(USB_DS4)
+#elif defined(USB_DS4) || defined(USB_DS4STUB)
   #define VENDOR_ID		0x16C0
   // Looks like a unused PID within the 0474-04d7 range
   // See https://www.voti.nl/pids/

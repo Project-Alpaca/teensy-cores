@@ -37,7 +37,7 @@
 
 #include "InternalCRC32.h"
 
-#ifdef DS4_INTERFACE
+#if defined(DS4_INTERFACE) && defined(USB_DS4)
 #if F_CPU >= 20000000
 
 #define TX_PACKET_LIMIT 4

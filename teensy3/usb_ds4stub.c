@@ -1,6 +1,7 @@
 /* Teensyduino Core Library
  * http://www.pjrc.com/teensy/
  * Copyright (c) 2017 PJRC.COM, LLC.
+ * Copyright (c) 2019 dogtopus
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -28,76 +29,11 @@
  * SOFTWARE.
  */
 
-#include <Arduino.h>
-#include "usb_desc.h"
-
+#if defined(DS4_INTERFACE) && defined(USB_DS4STUB)
 #if F_CPU >= 20000000
 
-#ifdef CDC_DATA_INTERFACE
-#ifdef CDC_STATUS_INTERFACE
-usb_serial_class Serial;
-#endif
-#endif
+uint8_t usb_ds4stub_reply_buffer[64];
+usb_ds4stub_fr_callback_t *usb_ds4stub_on_feature_report == NULL;
 
-#ifdef CDC2_DATA_INTERFACE
-#ifdef CDC2_STATUS_INTERFACE
-usb_serial2_class SerialUSB1;
-#endif
-#endif
-
-#ifdef CDC3_DATA_INTERFACE
-#ifdef CDC3_STATUS_INTERFACE
-usb_serial3_class SerialUSB2;
-#endif
-#endif
-
-#ifdef MIDI_INTERFACE
-usb_midi_class usbMIDI;
-#endif
-
-#ifdef KEYBOARD_INTERFACE
-usb_keyboard_class Keyboard;
-#endif
-
-#ifdef MOUSE_INTERFACE
-usb_mouse_class Mouse;
-#endif
-
-#ifdef RAWHID_INTERFACE
-usb_rawhid_class RawHID;
-#endif
-
-#ifdef FLIGHTSIM_INTERFACE
-FlightSimClass FlightSim;
-#endif
-
-#ifdef SEREMU_INTERFACE
-usb_seremu_class Serial;
-#endif
-
-#ifdef JOYSTICK_INTERFACE
-usb_joystick_class Joystick;
-uint8_t usb_joystick_class::manual_mode = 0;
-#endif
-
-#if defined(DS4_INTERFACE) && defined(USB_DS4)
-usb_ds4_class DS4;
-#endif
-
-#ifdef USB_DISABLED
-usb_serial_class Serial;
-#endif
-
-
-#else // F_CPU < 20 MHz
-
-#if defined(USB_SERIAL) || defined(USB_DUAL_SERIAL) || \
-    defined(USB_TRIPLE_SERIAL) || defined(USB_SERIAL_HID)
-usb_serial_class Serial;
-#elif (USB_DISABLED)
-usb_serial_class Serial;
-#else
-usb_seremu_class Serial;
-#endif
-
-#endif // F_CPU
+#endif // F_CPU >= 20000000
+#endif // defined(DS4_INTERFACE) && defined(USB_DS4STUB)
