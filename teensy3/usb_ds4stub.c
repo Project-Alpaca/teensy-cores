@@ -29,11 +29,13 @@
  * SOFTWARE.
  */
 
+#include "usb_ds4stub.h"
+
 #if defined(DS4_INTERFACE) && defined(USB_DS4STUB)
 #if F_CPU >= 20000000
 
 uint8_t usb_ds4stub_reply_buffer[64];
-usb_ds4stub_fr_callback_t *usb_ds4stub_on_feature_report == NULL;
+usb_ds4stub_fr_callback_t *usb_ds4stub_on_feature_report = NULL;
 
 #endif // F_CPU >= 20000000
 #endif // defined(DS4_INTERFACE) && defined(USB_DS4STUB)
