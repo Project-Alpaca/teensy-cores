@@ -422,7 +422,7 @@ static void usb_setup(void)
 		}
 #endif
 #if defined(USB_DS4STUB)
-		if (usb_ds4stub_on_feature_report && !(*usb_ds4stub_on_feature_report)(&setup, usb_ds4stub_reply_buffer, &datalen)) {
+		if (usb_ds4stub_on_get_report && !(*usb_ds4stub_on_get_report)(&setup, usb_ds4stub_reply_buffer, &datalen)) {
 			data = usb_ds4stub_reply_buffer;
 		} else {
 			endpoint0_stall();
@@ -690,8 +690,8 @@ static void usb_control(uint32_t stat)
 		}
 #endif
 #ifdef USB_DS4STUB
-		if (setup.wRequestAndType == 0x0921 && usb_ds4stub_on_feature_report) {
-			(*usb_ds4stub_on_feature_report)(&setup, buf, NULL);
+		if (setup.wRequestAndType == 0x0921 && usb_ds4stub_on_set_report) {
+			(*usb_ds4stub_on_set_report)(&setup, buf);
 		}
 #endif
 #endif

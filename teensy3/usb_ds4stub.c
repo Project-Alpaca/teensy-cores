@@ -35,7 +35,8 @@
 #if F_CPU >= 20000000
 
 uint8_t usb_ds4stub_reply_buffer[64];
-usb_ds4stub_fr_callback_t *usb_ds4stub_on_feature_report = NULL;
+usb_ds4stub_get_callback_t *usb_ds4stub_on_get_report = NULL;
+usb_ds4stub_set_callback_t *usb_ds4stub_on_set_report = NULL;
 
 #endif // F_CPU >= 20000000
 #endif // defined(DS4_INTERFACE) && defined(USB_DS4STUB)

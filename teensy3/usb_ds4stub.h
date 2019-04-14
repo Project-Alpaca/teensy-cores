@@ -41,10 +41,12 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-typedef int usb_ds4stub_fr_callback_t(void *setup_ptr, uint8_t *data, uint32_t *len);
+typedef int usb_ds4stub_get_callback_t(void *setup_ptr, uint8_t *data, uint32_t *len);
+typedef int usb_ds4stub_set_callback_t(void *setup_ptr, uint8_t *data);
 
 extern uint8_t usb_ds4stub_reply_buffer[];
-extern usb_ds4stub_fr_callback_t *usb_ds4stub_on_feature_report;
+extern usb_ds4stub_get_callback_t *usb_ds4stub_on_get_report;
+extern usb_ds4stub_set_callback_t *usb_ds4stub_on_set_report;
 #ifdef __cplusplus
 }
 #endif

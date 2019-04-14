@@ -112,9 +112,12 @@ extern int usb_ds4_on_get_report(void *setup_ptr, uint8_t *data, uint32_t *len);
 #endif
 
 #if defined(DS4_INTERFACE) && defined(USB_DS4STUB)
-typedef int usb_ds4stub_fr_callback_t(void *setup_ptr, uint8_t *data, uint32_t *len);
+typedef int usb_ds4stub_get_callback_t(void *setup_ptr, uint8_t *data, uint32_t *len);
+typedef int usb_ds4stub_set_callback_t(void *setup_ptr, uint8_t *data);
+
 extern uint8_t usb_ds4stub_reply_buffer[];
-extern usb_ds4stub_fr_callback_t *usb_ds4stub_on_feature_report;
+extern usb_ds4stub_get_callback_t *usb_ds4stub_on_get_report;
+extern usb_ds4stub_set_callback_t *usb_ds4stub_on_set_report;
 #endif
 
 #ifdef __cplusplus
