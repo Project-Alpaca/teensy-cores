@@ -188,7 +188,7 @@ typedef struct {
 #define DS4_TOUCH_GET_ID(tp) (tp & 0x7f)
 #define DS4_TOUCH_GET_X(tp) ((tp >> 8) & 0xfff)
 #define DS4_TOUCH_GET_Y(tp) ((tp >> 20) & 0xfff)
-#define DS4_TOUCH_RELEASE(tp) tp &= 0xffffff7f
+#define DS4_TOUCH_RELEASE(tp) tp |= 0x80
 
 #define DS4_TOUCH_POS_UNPACK(tp) \
     DS4_TOUCH_GET_STATE(tp), DS4_TOUCH_GET_ID(tp), DS4_TOUCH_GET_X(tp), DS4_TOUCH_GET_Y(tp)
