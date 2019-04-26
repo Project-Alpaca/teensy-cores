@@ -35,8 +35,6 @@
 #include "HardwareSerial.h"
 #include <string.h> // for memcpy()
 
-#include "InternalCRC32.h"
-
 #if defined(DS4_INTERFACE) && defined(USB_DS4)
 #if F_CPU >= 20000000
 
@@ -89,7 +87,6 @@ static bool _auth_challenge_available;
 static bool _auth_challenge_sent;
 static bool _auth_response_available;
 static bool _auth_response_buffered;
-static InternalCRC32 _cksum;
 
 void usb_ds4_report_init(ds4_report_t *report) {
     memset(report, 0, sizeof(ds4_report_t));
@@ -169,11 +166,8 @@ int usb_ds4_on_get_report(void *setup_ptr, uint8_t *data, uint32_t *len) {
                 result->status = 0x00;
                 _auth_challenge_sent = false;
             }
-            _cksum.reset();
-            _cksum.update((uint8_t *) result, sizeof(ds4_auth_result_t) - sizeof(uint32_t));
-            result->crc32 = _cksum.finalize();
+            result->crc32 = 0;
             *len = sizeof(ds4_auth_result_t);
-            _cksum.reset();
             break;
         case 0x0303: // licensedGetHWConfig
             debug_print("I: licensedGetHWConfig\n");
