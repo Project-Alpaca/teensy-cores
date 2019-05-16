@@ -959,7 +959,7 @@ let me know?  http://forum.pjrc.com/forums/4-Suggestions-amp-Bug-Reports
   #define PRODUCT_NAME_LEN	10
   #define EP0_SIZE		64
   #define NUM_ENDPOINTS         4
-  #define NUM_USB_BUFFERS	12
+  #define NUM_USB_BUFFERS	10
   #define NUM_INTERFACE		2
   #define DS4_INTERFACE      0	// DS4
   #define DS4_TX_ENDPOINT    1

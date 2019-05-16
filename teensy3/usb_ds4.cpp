@@ -38,7 +38,7 @@
 #if defined(DS4_INTERFACE) && defined(USB_DS4)
 #if F_CPU >= 20000000
 
-#define TX_PACKET_LIMIT 4
+#define TX_PACKET_LIMIT 2
 
 #ifndef DS4_PACKET_TIMEOUT
 #define DS4_PACKET_TIMEOUT 1000
