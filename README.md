@@ -4,4 +4,4 @@ The latest stable version of Teensy's core library is always available in the Te
 
 http://www.pjrc.com/teensy/td_download.html
 
-(This fork adds PS4 controller emulation support. Use `-DUSB_DS4 -UUSB_SERIAL` to enable)
+(This fork adds PS4 controller emulation support for Teensy 3.x/LC support. Use with [RDS4Reboot](https://github.com/Project-Alpaca/RDS4Reboot).)
